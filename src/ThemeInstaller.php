@@ -36,7 +36,7 @@ class ThemeInstaller extends LibraryInstaller
     {
         return 'craft-theme' === $packageType;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -72,6 +72,10 @@ class ThemeInstaller extends LibraryInstaller
 
     protected function removeCacheFile()
     {
-        dump($this->vendorDir);
+        $ds = DIRECTORY_SEPARATOR;
+        $file = dirname($this->vendorDir) . $ds . 'storage'. $ds .'runtime' . $ds .'themes' . $ds .'themes';
+        if (file_exists($file)) {
+            unlink($file);
+        }
     }
 }
