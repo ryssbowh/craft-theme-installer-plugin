@@ -2,8 +2,9 @@
 
 namespace Ryssbowh\ThemeInstaller;
 
-use Composer\Package\PackageInterface;
 use Composer\Installer\LibraryInstaller;
+use Composer\Package\PackageInterface;
+use Composer\Repository\InstalledRepositoryInterface;
 
 class ThemeInstaller extends LibraryInstaller
 {
@@ -34,5 +35,43 @@ class ThemeInstaller extends LibraryInstaller
     public function supports($packageType)
     {
         return 'craft-theme' === $packageType;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
+    {
+        parent::install($repo, $package);
+        if ($package->getType() == 'craft-theme') {
+            $this->removeCacheFile();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
+    {
+        parent::update($repo, $initial, $target);
+        if ($package->getType() == 'craft-theme') {
+            $this->removeCacheFile();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
+    {
+        parent::uninstall($repo, $package);
+        if ($package->getType() == 'craft-theme') {
+            $this->removeCacheFile();
+        }
+    }
+
+    protected function removeCacheFile()
+    {
+        dump($this->vendorDir);
     }
 }

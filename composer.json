@@ -2,6 +2,12 @@
     "name": "ryssbowh/craft-theme-installer-plugin",
     "type": "composer-plugin",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "The Web Puzzlers",
+            "homepage": "https://github.com/ryssbowh"
+        }
+    ],
     "autoload": {
         "psr-4": {"Ryssbowh\\ThemeInstaller\\": "src/"}
     },
