@@ -73,7 +73,7 @@ class ThemeInstaller extends LibraryInstaller
     protected function removeCacheFile()
     {
         $ds = DIRECTORY_SEPARATOR;
-        $file = dirname($this->vendorDir) . $ds . 'storage'. $ds .'runtime' . $ds .'themes' . $ds .'themes';
+        $file = dirname($this->vendorDir) . $ds . 'ryssbowh'. $ds .'craft-themes' . $ds . 'themes.php';
         if (file_exists($file)) {
             unlink($file);
         }
