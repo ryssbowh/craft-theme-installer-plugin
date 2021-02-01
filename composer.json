@@ -15,9 +15,9 @@
         "class": "Ryssbowh\\ThemeInstaller\\ThemeInstallerPlugin"
     },
     "require": {
-        "composer-plugin-api": "^1.0"
+        "composer-plugin-api": "^2.0"
     },
     "require-dev": {
-        "composer/composer": "^1.8"
+        "composer/composer": "^2.0"
     }
 }
