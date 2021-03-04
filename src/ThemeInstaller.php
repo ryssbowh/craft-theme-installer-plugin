@@ -5,6 +5,7 @@ namespace Ryssbowh\ThemeInstaller;
 use Composer\Installer\LibraryInstaller;
 use Composer\Package\PackageInterface;
 use Composer\Repository\InstalledRepositoryInterface;
+use React\Promise\PromiseInterface;
 
 class ThemeInstaller extends LibraryInstaller
 {
@@ -32,20 +33,22 @@ class ThemeInstaller extends LibraryInstaller
     /**
      * {@inheritDoc}
      */
-    public function supports($packageType)
-    {
-        return 'craft-theme' === $packageType;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
-        parent::install($repo, $package);
-        if ($package->getType() == 'craft-theme') {
+        $clearCaches = function () {
             $this->removeCacheFile();
+        };
+
+        // Install the plugin in vendor/ like a normal Composer library
+        $promise = parent::install($repo, $package);
+
+        // Composer v2 might return a promise here
+        if ($promise instanceof PromiseInterface) {
+            return $promise->then($clearCaches);
         }
+
+        $clearCaches();
+        return null;
     }
 
     /**
@@ -53,10 +56,20 @@ class ThemeInstaller extends LibraryInstaller
      */
     public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
     {
-        parent::update($repo, $initial, $target);
-        if ($package->getType() == 'craft-theme') {
+        $clearCaches = function () {
             $this->removeCacheFile();
+        };
+
+        // Install the plugin in vendor/ like a normal Composer library
+        $promise = parent::update($repo, $initial, $target);
+
+        // Composer v2 might return a promise here
+        if ($promise instanceof PromiseInterface) {
+            return $promise->then($clearCaches);
         }
+
+        $clearCaches();
+        return null;
     }
 
     /**
@@ -64,10 +77,20 @@ class ThemeInstaller extends LibraryInstaller
      */
     public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
-        parent::uninstall($repo, $package);
-        if ($package->getType() == 'craft-theme') {
+        $clearCaches = function () {
             $this->removeCacheFile();
+        };
+
+        // Install the plugin in vendor/ like a normal Composer library
+        $promise = parent::uninstall($repo, $package);
+
+        // Composer v2 might return a promise here
+        if ($promise instanceof PromiseInterface) {
+            return $promise->then($clearCaches);
         }
+
+        $clearCaches();
+        return null;
     }
 
     protected function removeCacheFile()
