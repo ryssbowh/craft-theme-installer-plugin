@@ -35,20 +35,9 @@ class ThemeInstaller extends LibraryInstaller
      */
     public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
-        $clearCaches = function () {
-            $this->removeCacheFile();
-        };
+        $this->removeCacheFile();
 
-        // Install the plugin in vendor/ like a normal Composer library
-        $promise = parent::install($repo, $package);
-
-        // Composer v2 might return a promise here
-        if ($promise instanceof PromiseInterface) {
-            return $promise->then($clearCaches);
-        }
-
-        $clearCaches();
-        return null;
+        return parent::install($repo, $package);
     }
 
     /**
@@ -56,20 +45,9 @@ class ThemeInstaller extends LibraryInstaller
      */
     public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
     {
-        $clearCaches = function () {
-            $this->removeCacheFile();
-        };
+        $this->removeCacheFile();
 
-        // Install the plugin in vendor/ like a normal Composer library
-        $promise = parent::update($repo, $initial, $target);
-
-        // Composer v2 might return a promise here
-        if ($promise instanceof PromiseInterface) {
-            return $promise->then($clearCaches);
-        }
-
-        $clearCaches();
-        return null;
+        return parent::update($repo, $initial, $target);
     }
 
     /**
@@ -77,26 +55,15 @@ class ThemeInstaller extends LibraryInstaller
      */
     public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
-        $clearCaches = function () {
-            $this->removeCacheFile();
-        };
-
-        // Install the plugin in vendor/ like a normal Composer library
-        $promise = parent::uninstall($repo, $package);
-
-        // Composer v2 might return a promise here
-        if ($promise instanceof PromiseInterface) {
-            return $promise->then($clearCaches);
-        }
-
-        $clearCaches();
-        return null;
+        $this->removeCacheFile();
+       
+        return parent::uninstall($repo, $package);
     }
 
     protected function removeCacheFile()
     {
         $ds = DIRECTORY_SEPARATOR;
-        $file = dirname($this->vendorDir) . $ds . 'ryssbowh'. $ds .'craft-themes' . $ds . 'themes.php';
+        $file = $this->vendorDir . $ds . 'ryssbowh'. $ds .'craft-themes' . $ds . 'themes.php';
         if (file_exists($file)) {
             unlink($file);
         }
